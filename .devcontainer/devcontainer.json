@@ -1,13 +1,15 @@
 {
   "name": "Mall Dev",
-  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "version": "17",
       "installMaven": true,
       "mavenVersion": "3.9.6"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false
+    }
   },
   "postCreateCommand": "docker compose up -d && mvn clean compile",
   "postStartCommand": "mvn spring-boot:run",
