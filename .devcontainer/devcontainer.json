@@ -1,0 +1,33 @@
+{
+  "name": "Mall Dev",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installMaven": true,
+      "mavenVersion": "3.9.6"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": "docker compose up -d && mvn clean compile",
+  "postStartCommand": "mvn spring-boot:run",
+  "forwardPorts": [8080, 3306, 6379, 5672, 15672],
+  "portsAttributes": {
+    "8080": {
+      "label": "Mall API",
+      "onAutoForward": "notify"
+    },
+    "15672": {
+      "label": "RabbitMQ Management",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-boot-dev-pack"
+      ]
+    }
+  }
+}
