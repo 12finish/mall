@@ -2,9 +2,12 @@ package com.example.mall.config;
 
 import com.example.mall.common.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -23,6 +26,13 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getField() + ":" + error.getDefaultMessage())
                 .orElse("参数校验失败");
         return Result.fail(message);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result<Void> handleNoResourceFoundException(NoResourceFoundException e) {
+        log.debug("资源未找到: {}", e.getResourcePath());
+        return Result.fail(404, "资源未找到");
     }
 
     @ExceptionHandler(Exception.class)
